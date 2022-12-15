@@ -18,6 +18,8 @@ const client = new Client({
 
 client.on("ready", () => {
   setActivityBot(client);
+  const date = new Date();
+  console.log(new Intl.DateTimeFormat('pt-BR').format(date))
 });
 
 client.on("messageCreate", (message) => {
@@ -34,7 +36,7 @@ client.on("messageCreate", (message) => {
 client.login(token);
 
 app.get('/', (req: Request, res: Response) => {
-  return res.send('<h1>Welcome!</h1>');
+  return res.send('<h1>Welcome!</h1>').status(200);
 })
 
-app.listen(3333, () => console.log("Server On - Port 3333"));  
+app.listen(3333, () => console.log("Server On - Port 3333"));
