@@ -30,7 +30,7 @@ client.on("messageCreate", (message) => {
     .split(/ +/g) as any;
   const command = parameters.shift().toLowerCase();
   if (!message.content.toLowerCase().startsWith(config.prefix)) return;
-  CommandsHandler(command, parameters);
+  CommandsHandler(command, parameters, message);
 });
 
 client.login(token);
