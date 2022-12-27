@@ -31,6 +31,8 @@ const client = new Client({
 
 client.on("ready", () => {
   setActivityBot(client);
+  const date = new Date();
+  console.log(new Intl.DateTimeFormat('pt-BR').format(date))
 });
 
 client.on("messageCreate", (message) => {
@@ -41,9 +43,13 @@ client.on("messageCreate", (message) => {
     .split(/ +/g) as any;
   const command = parameters.shift().toLowerCase();
   if (!message.content.toLowerCase().startsWith(config.prefix)) return;
-  CommandsHandler(command, parameters);
+  CommandsHandler(command, parameters, message);
 });
 
-app.get("/", (req: Request, res: Response) => {
-  return res.send("<h1>Welcome!</h1>");
-});
+client.login(token);
+
+app.get('/', (req: Request, res: Response) => {
+  return res.send('<h1>Welcome!</h1>').status(200);
+})
+
+app.listen(3333, () => console.log("Server On - Port 3333"));
