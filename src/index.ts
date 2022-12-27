@@ -1,12 +1,25 @@
 import { Client, ClientOptions, Intents } from "discord.js";
-import express, { Request, Response } from 'express';
+import express, { Request, Response } from "express";
 import setActivityBot from "./activities";
 import CommandsHandler from "./commands";
+import mongoose from "mongoose";
 import config from "./config.json";
-require('dotenv').config()
+require("dotenv").config();
 
 const app = express();
 const token = process.env.DISCORD_TOKEN;
+const dbUser = process.env.MONGO_USER;
+const dbPassword = process.env.MONGO_PASS;
+const dbUrl =`mongodb+srv://${dbUser}:${dbPassword}@apicluster.rwbzk.mongodb.net/?retryWrites=true&w=majority`;
+
+mongoose
+  .connect(dbUrl)
+  .then(() => {
+    console.log("Connected!");
+    app.listen(3333, () => console.log("Server On - Port 3333"));
+    client.login(token);
+  })
+  .catch((err) => console.log("Error: ", err));
 
 const client = new Client({
   intents: [
@@ -31,10 +44,6 @@ client.on("messageCreate", (message) => {
   CommandsHandler(command, parameters);
 });
 
-client.login(token);
-
-app.get('/', (req: Request, res: Response) => {
-  return res.send('<h1>Welcome!</h1>');
-})
-
-app.listen(3333, () => console.log("Server On - Port 3333"));  
+app.get("/", (req: Request, res: Response) => {
+  return res.send("<h1>Welcome!</h1>");
+});
