@@ -1,4 +1,4 @@
-import { Client, ClientOptions, Intents } from "discord.js";
+import { Client, ClientOptions, GatewayIntentBits  } from "discord.js";
 import express, { Request, Response } from "express";
 import setActivityBot from "./activities";
 import CommandsHandler from "./commands";
@@ -12,20 +12,20 @@ const dbUser = process.env.MONGO_USER;
 const dbPassword = process.env.MONGO_PASS;
 const dbUrl =`mongodb+srv://${dbUser}:${dbPassword}@apicluster.rwbzk.mongodb.net/?retryWrites=true&w=majority`;
 
-mongoose
-  .connect(dbUrl)
-  .then(() => {
-    console.log("Connected!");
-    app.listen(3333, () => console.log("Server On - Port 3333"));
-    client.login(token);
-  })
-  .catch((err) => console.log("Error: ", err));
 
 const client = new Client({
   intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MEMBERS,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildBans,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildIntegrations,
+    GatewayIntentBits.GuildMessageTyping,
+    GatewayIntentBits.GuildScheduledEvents,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.AutoModerationConfiguration,
+    GatewayIntentBits.AutoModerationExecution,
   ],
 });
 
@@ -46,10 +46,16 @@ client.on("messageCreate", (message) => {
   CommandsHandler(command, parameters, message);
 });
 
-client.login(token);
 
 app.get('/', (req: Request, res: Response) => {
   return res.send('<h1>Welcome!</h1>').status(200);
 })
 
-app.listen(3333, () => console.log("Server On - Port 3333"));
+mongoose
+  .connect(dbUrl)
+  .then(() => {
+    console.log("Connected!");
+    app.listen(3000, () => console.log("Server On - Port 3333"));
+    client.login(token);
+  })
+  .catch((err) => console.log("Error: ", err));

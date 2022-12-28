@@ -1,4 +1,4 @@
-import { Client } from "discord.js";
+import { ActivityType, Client } from "discord.js";
 import config from "./../config.json";
 
 
@@ -12,7 +12,7 @@ const setActivityBot = (client: Client) => {
   setInterval(
     () =>
       client.user?.setActivity(`${status[i++ % status.length]}`, {
-        type: "WATCHING",
+        type:  ActivityType.Watching,
       }),
     5000
   );

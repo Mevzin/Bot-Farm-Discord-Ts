@@ -1,3 +1,4 @@
+import RegisterManager from "./registerManager";
 import WelcomeMessage from "./welcomeMesage";
 
 interface CommandsProps {
@@ -6,10 +7,11 @@ interface CommandsProps {
 }
 
 const CommandsHandler = (command: string, parameters: CommandsProps, message: any) => {
-  console.log(command);
-  console.log(parameters);
   if(command == "welcome"){
     WelcomeMessage(message);
+  }
+  if(command == "register"){
+    RegisterManager(parameters, message);
   }
 };
 

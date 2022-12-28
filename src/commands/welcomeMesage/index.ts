@@ -1,8 +1,7 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 
 const WelcomeMessage = (message: any) => {
-  console.log(message);
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
       .setTitle(`Olá, seja bem vindo(a) a familia NVME`)
       .setDescription("A partir de hoje, serei o seu melhor companheiro ^^")
       .addFields(
