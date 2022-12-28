@@ -24,8 +24,8 @@ const client = new Client({
     GatewayIntentBits.GuildScheduledEvents,
     GatewayIntentBits.GuildMessageReactions,
     GatewayIntentBits.MessageContent,
-    GatewayIntentBits.AutoModerationConfiguration,
     GatewayIntentBits.AutoModerationExecution,
+    GatewayIntentBits.AutoModerationConfiguration,
   ],
 });
 
@@ -54,7 +54,7 @@ app.get('/', (req: Request, res: Response) => {
 mongoose
   .connect(dbUrl)
   .then(() => {
-    console.log("Connected!");
+    console.log("Connected mongo db!");
     app.listen(3000, () => console.log("Server On - Port 3333"));
     client.login(token);
   })
