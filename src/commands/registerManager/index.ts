@@ -1,11 +1,13 @@
-import { PermissionsBitField } from "discord.js"
+import { PermissionsBitField, Permissions  } from "discord.js";
+
+const categoryID = "1052756154821902377";
 
 const RegisterManager = async (newNick: any, clientMessage: any) => {
-  if (clientMessage.mentions.members.first() == undefined){
+  if (clientMessage.mentions.members.first() == undefined) {
     return clientMessage.reply(
-      "Mencione voce mesmo para poder alterar seu nome!"
+      "Mencione um membro para pode efetuar o registro"
     );
-  } 
+  }
   const user = clientMessage.mentions.members.first();
   try {
     if (!clientMessage.member.permissions.has("MANAGE_NICKNAMES"))
@@ -20,13 +22,37 @@ const RegisterManager = async (newNick: any, clientMessage: any) => {
         `${newNick[1]} | ${newNick[2]} | ${newNick[3]}`,
         ""
       );
+      try {
+        const channel = clientMessage.guild.channels
+          .create({
+            name: `📂 ${newNick[1]} ${newNick[2]} ${newNick[3]}`,
+            type: 0
+          })
+          .then((channel: any) => {
+            const categoryID = "1052756154821902377";
+            channel.setParent(categoryID)
+            channel.permissionOverwrites.set([
+              {
+                id: clientMessage.guild.id,
+                deny: [PermissionsBitField.Flags.ViewChannel],
+              },
+              {
+                id: user.user.id,
+                allow: [PermissionsBitField.Flags.ViewChannel],
+              },
+            ]);
+          })
+          .catch((err: Error) => console.log(err));
+      } catch (error) {
+        console.error(error);
+      }
       clientMessage.reply(
         `Nick alterado para ${newNick[1]} | ${newNick[2]} | ${newNick[3]}`
       );
     }
   } catch (error) {
     console.error(error);
-    clientMessage.reply("Não possuo permissão ;-; err");
+    clientMessage.reply("Você não possui permissão para isso!");
   }
 };
 

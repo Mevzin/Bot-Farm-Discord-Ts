@@ -32,7 +32,8 @@ const client = new Client({
 client.on("ready", () => {
   setActivityBot(client);
   const date = new Date();
-  console.log(new Intl.DateTimeFormat('pt-BR').format(date))
+ 
+  console.log(date.toUTCString());
 });
 
 client.on("messageCreate", (message) => {

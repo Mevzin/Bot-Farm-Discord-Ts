@@ -1,5 +1,5 @@
 import RegisterManager from "./registerManager";
-import WelcomeMessage from "./welcomeMesage";
+import WelcomeMessage from "./welcomeMessage";
 
 interface CommandsProps {
   command: string;
